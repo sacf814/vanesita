@@ -7,13 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- ESTILOS GENERALES --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             background-color: #fcf8f2;
             overflow-x: hidden;
@@ -25,8 +19,6 @@
             align-items: center;
             position: relative;
         }
-
-        /* Contenedor Principal */
         .container {
             width: 90%;
             max-width: 500px;
@@ -39,8 +31,6 @@
             z-index: 5;
             border: 1px solid rgba(255, 183, 178, 0.3);
         }
-
-        /* Título Colaboración */
         .collab-title {
             font-family: 'Playfair Display', serif;
             font-size: 38px;
@@ -49,8 +39,6 @@
             margin-bottom: 5px;
             letter-spacing: -1px;
         }
-
-        /* Corazón Latiendo */
         .heart-main {
             font-size: 35px;
             color: #ff6b6b;
@@ -58,14 +46,11 @@
             animation: heartbeat 1.3s infinite ease-in-out;
             display: inline-block;
         }
-
         @keyframes heartbeat {
             0% { transform: scale(1); }
             50% { transform: scale(1.15); }
             100% { transform: scale(1); }
         }
-
-        /* Galería de Fotos */
         .photo-frame {
             width: 100%;
             height: 350px;
@@ -76,7 +61,6 @@
             margin-bottom: 25px;
             overflow: hidden;
         }
-
         .photo-frame img {
             width: 100%;
             height: 100%;
@@ -85,8 +69,6 @@
             transition: opacity 0.8s ease-in-out;
             opacity: 1;
         }
-
-        /* Cuenta Regresiva */
         .countdown-label {
             font-size: 13px;
             text-transform: uppercase;
@@ -95,7 +77,6 @@
             margin-bottom: 8px;
             font-weight: 600;
         }
-
         .timer-display {
             font-family: 'Playfair Display', serif;
             font-size: 32px;
@@ -103,8 +84,6 @@
             font-weight: 700;
             margin-bottom: 20px;
         }
-
-        /* Botón de la Carta */
         .btn-letter {
             padding: 12px 25px;
             background: #ffb7b2;
@@ -117,13 +96,10 @@
             font-family: 'Montserrat', sans-serif;
             box-shadow: 0 4px 10px rgba(255, 183, 178, 0.4);
         }
-
         .btn-letter:hover {
             background: #ff8b8b;
             transform: translateY(-2px);
         }
-
-        /* Reproductor de Música */
         audio {
             margin-top: 20px;
             width: 100%;
@@ -133,32 +109,21 @@
             transition: opacity 0.3s;
         }
         audio:hover { opacity: 1; }
-
-        /* --- LLUVIA DE PÉTALOS --- */
         .petal {
             position: absolute;
             top: -50px;
             z-index: 1;
             pointer-events: none;
             background: linear-gradient(135deg, #ffb7b2, #ff8b8b);
-            border-radius: 150px 0 150px 150px; /* Forma de pétalo */
+            border-radius: 150px 0 150px 150px;
             animation: fall linear forwards;
         }
-
         @keyframes fall {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
             10% { opacity: 0.8; }
             90% { opacity: 0.8; }
-            100% {
-                transform: translateY(105vh) rotate(360deg);
-                opacity: 0;
-            }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
         }
-
-        /* --- VENTANA EMERGENTE (CARTA) --- */
         .modal {
             display: none;
             position: fixed;
@@ -170,7 +135,6 @@
             justify-content: center;
             overflow-y: auto;
         }
-
         .letter-content {
             font-family: 'Playfair Display', serif;
             font-size: 20px;
@@ -179,19 +143,14 @@
             text-align: center;
             animation: fadeIn 0.5s ease;
         }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .close-btn {
             position: absolute;
-            top: 25px;
-            right: 30px;
-            font-size: 35px;
-            cursor: pointer;
-            color: #777;
+            top: 25px; right: 30px;
+            font-size: 35px; cursor: pointer; color: #777;
         }
     </style>
 </head>
@@ -229,29 +188,32 @@
     </div>
 
     <script>
-        // --- 1. LÓGICA DE FOTOS (Genera automáticamente foto1 a foto26) ---
+        // --- 1. LÓGICA DE FOTOS CON PRECARGA INTELIGENTE ---
         const photos = [];
         for (let i = 1; i <= 26; i++) { 
-            photos.push(`foto${i}.jpg`); 
+            photos.push(`foto${i}.jpg`);
+            // Esto obliga al celular a descargar la foto en segundo plano de inmediato
+            const imgCache = new Image();
+            imgCache.src = `foto${i}.jpg`;
         }
+        
         let currentIdx = 0;
         const img = document.getElementById("dynamicPhoto");
 
         setInterval(() => {
-            img.style.opacity = 0; // Se desvanece
+            img.style.opacity = 0; 
             setTimeout(() => {
                 currentIdx = (currentIdx + 1) % photos.length;
-                img.src = photos[currentIdx]; // Cambia la foto
-                img.style.opacity = 1; // Aparece de nuevo
+                img.src = photos[currentIdx]; 
+                img.style.opacity = 1; 
             }, 800); 
         }, 4000);
 
-        // --- 2. CUENTA REGRESIVA AL 3 DE ABRIL DE 2027 ---
+        // --- 2. CUENTA REGRESIVA ---
         const target = new Date("April 3, 2027 00:00:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
             const diff = target - now;
-            
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -264,35 +226,22 @@
             }
         }, 1000);
 
-        // --- 3. LLUVIA DE PÉTALOS DE ROSA ---
+        // --- 3. LLUVIA DE PÉTALOS ---
         function createPetal() {
             const petal = document.createElement('div');
             petal.classList.add('petal');
-            
-            // Tamaños y posiciones aleatorias
-            const size = Math.random() * 12 + 8; // Entre 8px y 20px
+            const size = Math.random() * 12 + 8; 
             petal.style.width = size + 'px';
             petal.style.height = (size * 1.2) + 'px';
             petal.style.left = Math.random() * 100 + '%';
-            
-            // Duración de caída y retrasos variados
-            petal.style.animationDuration = (Math.random() * 4 + 4) + 's'; // Entre 4 y 8 segundos
-            
+            petal.style.animationDuration = (Math.random() * 4 + 4) + 's'; 
             document.body.appendChild(petal);
-            
-            // Eliminar pétalo cuando termine de caer
             setTimeout(() => petal.remove(), 8000);
         }
-        // Genera un pétalo nuevo cada 300 milisegundos
         setInterval(createPetal, 300);
 
-        // --- 4. CONTROL DE LA CARTA (MODAL) ---
-        function openLetter() { 
-            document.getElementById("letterModal").style.display = "flex"; 
-        }
-        function closeLetter() { 
-            document.getElementById("letterModal").style.display = "none"; 
-        }
+        function openLetter() { document.getElementById("letterModal").style.display = "flex"; }
+        function closeLetter() { document.getElementById("letterModal").style.display = "none"; }
     </script>
 </body>
 </html>

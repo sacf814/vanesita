@@ -3,22 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Ti</title>
-    <link rel="stylesheet" href="style.css">
+    <title>vanecha x shanty</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: #fcf8f2;
+            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
+            color: #3c4043;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Contenedor Principal */
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+            z-index: 5;
+            border: 1px solid rgba(255, 183, 178, 0.3);
+        }
+
+        /* Título Colaboración */
+        .collab-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+            letter-spacing: -1px;
+        }
+
+        /* Corazón Latiendo */
+        .heart-main {
+            font-size: 35px;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            animation: heartbeat 1.3s infinite ease-in-out;
+            display: inline-block;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        /* Galería de Fotos */
+        .photo-frame {
+            width: 100%;
+            height: 350px;
+            background: #fff;
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+            transition: opacity 0.8s ease-in-out;
+            opacity: 1;
+        }
+
+        /* Cuenta Regresiva */
+        .countdown-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #777;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .timer-display {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: #d63031;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* Botón de la Carta */
+        .btn-letter {
+            padding: 12px 25px;
+            background: #ffb7b2;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 4px 10px rgba(255, 183, 178, 0.4);
+        }
+
+        .btn-letter:hover {
+            background: #ff8b8b;
+            transform: translateY(-2px);
+        }
+
+        /* Reproductor de Música */
+        audio {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 280px;
+            height: 35px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        audio:hover { opacity: 1; }
+
+        /* --- LLUVIA DE PÉTALOS --- */
+        .petal {
+            position: absolute;
+            top: -50px;
+            z-index: 1;
+            pointer-events: none;
+            background: linear-gradient(135deg, #ffb7b2, #ff8b8b);
+            border-radius: 150px 0 150px 150px; /* Forma de pétalo */
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* --- VENTANA EMERGENTE (CARTA) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(252, 248, 242, 0.98);
+            z-index: 100;
+            padding: 30px;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        .letter-content {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            line-height: 1.6;
+            max-width: 500px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 25px;
+            right: 30px;
+            font-size: 35px;
+            cursor: pointer;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
-    <div class="heart">❤️</div>
 
-    <div class="gallery">
-        <img id="photo" src="foto1.jpg" alt="Nuestros recuerdos">
+    <div class="container">
+        <h1 class="collab-title">vanecha x shanty</h1>
+        <div class="heart-main">❤️</div>
+
+        <div class="photo-frame">
+            <img id="dynamicPhoto" src="foto1.jpg" alt="Nuestro recuerdo">
+        </div>
+
+        <div class="countdown-box">
+            <div class="countdown-label">Tiempo que falta para nuestro segundo aniversario:</div>
+            <div class="timer-display" id="mainTimer">Calculando...</div>
+        </div>
+
+        <button class="btn-letter" onclick="openLetter()">Leer carta completa</button>
+        <br>
+
+        <audio id="bgMusic" controls loop>
+            <source src="cancion.mp3" type="audio/mpeg">
+        </audio>
     </div>
 
-    <div class="countdown">
-        <h2>Faltan:</h2>
-        <p id="timer">Calculando...</p>
-        <p class="date-target">Para el 3 de abril de 2027</p>
+    <div id="letterModal" class="modal">
+        <span class="close-btn" onclick="closeLetter()">&times;</span>
+        <div class="letter-content">
+            <h2 style="margin-bottom: 25px; font-weight: 700;">Querida Vanesita:</h2>
+            <p>Si estás leyendo esto, quiero que sepas que te amo mutooooooo. Espero que cuando lo leas, te sientas muy bien. De mi parte, te confieso que estoy enamorado de ti mucho más de lo que imaginas.</p>
+            <p style="margin-top: 20px;">Quiero que este año nos vaya muy bien y que podamos estar siempre juntos. De todo corazón, perdona mis actitudes que a veces lastiman, y cámbialas por el recuerdo de que mi amor por ti es verdadero y fiel.</p>
+            <p style="margin-top: 25px; font-weight: 700; color: #d63031;">Gracias por existir, eres la mejor. ¡Te amooooooooooooooo!</p>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // --- 1. LÓGICA DE FOTOS (Genera automáticamente foto1 a foto26) ---
+        const photos = [];
+        for (let i = 1; i <= 26; i++) { 
+            photos.push(`foto${i}.jpg`); 
+        }
+        let currentIdx = 0;
+        const img = document.getElementById("dynamicPhoto");
+
+        setInterval(() => {
+            img.style.opacity = 0; // Se desvanece
+            setTimeout(() => {
+                currentIdx = (currentIdx + 1) % photos.length;
+                img.src = photos[currentIdx]; // Cambia la foto
+                img.style.opacity = 1; // Aparece de nuevo
+            }, 800); 
+        }, 4000);
+
+        // --- 2. CUENTA REGRESIVA AL 3 DE ABRIL DE 2027 ---
+        const target = new Date("April 3, 2027 00:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = target - now;
+            
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            if (diff > 0) {
+                document.getElementById("mainTimer").innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+            } else {
+                document.getElementById("mainTimer").innerHTML = "¡Feliz Aniversario! ❤️";
+            }
+        }, 1000);
+
+        // --- 3. LLUVIA DE PÉTALOS DE ROSA ---
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            // Tamaños y posiciones aleatorias
+            const size = Math.random() * 12 + 8; // Entre 8px y 20px
+            petal.style.width = size + 'px';
+            petal.style.height = (size * 1.2) + 'px';
+            petal.style.left = Math.random() * 100 + '%';
+            
+            // Duración de caída y retrasos variados
+            petal.style.animationDuration = (Math.random() * 4 + 4) + 's'; // Entre 4 y 8 segundos
+            
+            document.body.appendChild(petal);
+            
+            // Eliminar pétalo cuando termine de caer
+            setTimeout(() => petal.remove(), 8000);
+        }
+        // Genera un pétalo nuevo cada 300 milisegundos
+        setInterval(createPetal, 300);
+
+        // --- 4. CONTROL DE LA CARTA (MODAL) ---
+        function openLetter() { 
+            document.getElementById("letterModal").style.display = "flex"; 
+        }
+        function closeLetter() { 
+            document.getElementById("letterModal").style.display = "none"; 
+        }
+    </script>
 </body>
 </html>
